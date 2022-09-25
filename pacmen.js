@@ -5,6 +5,7 @@ const pacArray = [
 ];
 let direction = 0;
 const pacMen = []; // This array holds all the pacmen
+let focus = 0;
 
 // This function returns an object with random values
 function setToRandom(scale) {
@@ -50,17 +51,26 @@ function update() {
 
     item.newimg.style.left = item.position.x;
     item.newimg.style.top = item.position.y;
+
+    item.newimg.src = pacArray[direction][focus]
   });
   setTimeout(update, 20);
 }
+
+function moveMouth() {
+  focus = (focus + 1) % 2;
+}
+setInterval(moveMouth, 200)
 
 function checkCollisions(item) {
   // TODO: detect collision with all walls and make pacman bounce
   if (
     item.position.x + item.velocity.x + item.newimg.width > window.innerWidth ||
     item.position.x + item.velocity.x < 0
-  )
+  ) {
     item.velocity.x = -item.velocity.x;
+    direction = (direction + 1) % 2;
+  }
 
   if(
     item.position.y + item.velocity.y + item.newimg.height > window.innerHeight ||
